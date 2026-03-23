@@ -65,7 +65,7 @@ const getListaArtigos = function(){
      
     erro = mensagemErro('Nenhum Artigo foi Encontrado', ['Lista Vazia'])
 
-    if(dadosArtigo.length == 0){
+    if(dadosArtigo.length === 0){
         return erro
     }
 
@@ -98,7 +98,7 @@ const getListaArtigos2 = function(){
         )
     })
 
-    if(dadosArtigo.length == 0){
+    if(dadosArtigo.length === 0){
         return false
     }
 
@@ -139,7 +139,7 @@ const getArtigoPorTitulo = function(nomeTitulo){
 
     erro = mensagemErro('Nenhum título de Artigo foi encontrado', '(nomeTitulo) do parâmetro da função')
 
-    if(resultado == null || listaAutores.length == 0){
+    if(resultado === null || listaAutores.length === 0){
         return erro
     }
 
@@ -150,3 +150,31 @@ const getArtigoPorTitulo = function(nomeTitulo){
     return resultado
 }
 
+
+// Função responsável por retornar todos os títulos das obras
+const getTitulos = function(){
+
+    let resultado   = null
+    let erro        = null
+    let listaTitulo = []
+
+    listaDadosOpen.results.forEach(function(itemResultadoArtigo){
+        listaTitulo.push(itemResultadoArtigo.title)
+    
+    })
+
+    erro = mensagemErro('Nenhum Título encontrado', ['Lista Vazia'])
+
+    if(listaTitulo.length === 0){
+        return erro
+    }
+
+    resultado = {
+        quantidade: listaTitulo.length,
+        dados     : listaTitulo 
+    }
+
+    resultado = mensagemSucesso('Lista de Títulos carregada', resultado)
+
+    return resultado
+}
