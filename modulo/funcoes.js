@@ -13,7 +13,7 @@ const listaDadosOpen = dadosOpenAlex.openAlex
 
 // -------------- | FUNÇÕES AUXILIARES | -------------- 
 
-// Função que retona a exibição do retorno padrão API erro
+// Função responsável por retonar a exibição do retorno padrão API erro
 const mensagemErro = function(mensagem, dados){
 
     let erro ={
@@ -28,7 +28,7 @@ const mensagemErro = function(mensagem, dados){
 }
 
 
-// Função que retorna a exibição do retorno padrão API correta
+// Função responsável por retornar a exibição do retorno padrão API correta
 const mensagemSucesso = function(mensagem, dados){
 
     let sucesso ={
@@ -45,7 +45,7 @@ const mensagemSucesso = function(mensagem, dados){
 
 // -------------- | FUNÇÕES DO PROJETO | -------------- 
 
-// Função que retorna a lista de artigos cientificos
+// Função responsável por retornar a lista de artigos cientificos
 const getListaArtigos = function(){
 
     let resultado   = null
@@ -111,3 +111,42 @@ const getListaArtigos2 = function(){
 }
 
 //console.log(getListaArtigos2())
+
+
+// Função responsável por retornar os dados do Artigo, usando como filtro o 'Título'
+const getArtigoPorTitulo = function(nomeTitulo){
+
+    let resultado    = null
+    let erro         = null
+    let listaAutores = []
+
+    listaDadosOpen.results.forEach(function(itemResultadoArtigo){
+
+        if(String(nomeTitulo).trim().toLowerCase() == String(itemResultadoArtigo.title).trim().toLowerCase()){
+
+            resultado = {
+                filtro : nomeTitulo,
+                id     : 1,
+                titulo : itemResultadoArtigo.title,
+                ano    : itemResultadoArtigo.publication_year
+            }
+
+            itemResultadoArtigo.authorships.forEach(function(itemResultadoAutores){
+                listaAutores.push(itemResultadoAutores.author.display_name)
+            })
+        }
+    })
+
+    erro = mensagemErro('Nenhum título de Artigo foi encontrado', '(nomeTitulo) do parâmetro da função')
+
+    if(resultado == null || listaAutores.length == 0){
+        return erro
+    }
+
+    resultado.autores = listaAutores
+
+    resultado = mensagemSucesso('Lista de Artigo por Titulo carregada', resultado)
+
+    return resultado
+}
+
