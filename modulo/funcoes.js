@@ -178,3 +178,32 @@ const getTitulos = function(){
 
     return resultado
 }
+
+
+// Função responsável por retornar uma lista de instituições vinculadas a um artigo
+const getInstituicoesPorArtigo = function(nomeArtigo){
+
+    let resultado         = null
+    let listaInstituicao  = []
+
+    listaDadosOpen.results.forEach(function(itemResultado){
+        
+        if(String(nomeArtigo).trim().toLowerCase() == String(itemResultado.title).trim().toLowerCase()){
+            
+            itemResultado.institutions.forEach(function(itemInstituicao){
+                listaInstituicao.push(itemInstituicao)
+            })
+        }
+    })
+
+    resultado = {
+        filtro : nomeArtigo,
+        quantidade: listaInstituicao.length,
+        dados: listaInstituicao
+    }
+
+    return resultado 
+}
+
+
+console.log(getInstituicoesPorArtigo('Radiation Resistant Camera System for Monitoring Deuterium Plasma Discharges in the Large Helical Device'))
